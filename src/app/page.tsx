@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "@/components/ui/toaster";
 import { trpc } from "@/utils/trpc";
 
 export default function Home() {
