@@ -4,8 +4,6 @@ import { CreateUserInput, createUserSchema } from "@/server/schema/user-schema";
 import { useUserMutation } from "./mutation";
 import { useToast } from "@/hooks/use-toast";
 
-
-
 // Mutation
 export const useUserCreate = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateUserInput>({
@@ -18,13 +16,12 @@ export const useUserCreate = () => {
     const onSubmit = async (data: CreateUserInput) => {
         try {
             await createUser(data)
-            reset();
-
             toast({
                 variant: "success",
                 title: "Success",
                 description: `Data berhasil disimpan sementara`,
             });
+            reset();
         }
         catch (err) {
             toast({

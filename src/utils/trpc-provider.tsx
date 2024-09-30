@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import { trpc } from "./trpc";
@@ -6,6 +6,7 @@ import { getFetch, httpBatchLink, loggerLink } from "@trpc/client";
 import superjson from "superjson";
 import queryClient from "./query-client";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 interface ITrpcProvider {
   children: React.ReactNode;
 }
@@ -37,7 +38,10 @@ export const TrpcProvider = ({ children }: ITrpcProvider) => {
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </trpc.Provider>
   );
 };

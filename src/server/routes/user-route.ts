@@ -5,8 +5,7 @@ import { createUserHandler, getUsersHandler } from "../controller/user-controlle
 
 const userRouter = t.router({
     createUser: t.procedure.input(createUserSchema).mutation(({ input }) => createUserHandler({ input })),
-    getUsers: t.procedure.input(filterQuery).query(({ input }) => getUsersHandler({ filterQuery: input }))
-
+    getUsers: t.procedure.input(filterQuery).query(({ input }) => getUsersHandler({ filterQuery: input })),
 })
 
 export default userRouter;

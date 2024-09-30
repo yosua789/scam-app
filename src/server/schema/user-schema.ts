@@ -6,8 +6,9 @@ export const createUserSchema = object({
 })
 
 export const filterQuery = object({
-    limit: number().default(1),
-    page: number().default(10)
+    limit: number().min(1).max(100).default(10),
+    page: number().min(1).default(1),
+    cursor: number().optional()
 })
 
 export type CreateUserInput = TypeOf<typeof createUserSchema>
