@@ -31,14 +31,11 @@ export default function DashboardLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="mx-auto w-full flex">
-
-        <HeaderNav />
+        <div className="mx-auto w-full flex justify-center items-center">
+          <HeaderNav />
         </div>
         <Toaster />
-        <TrpcProvider>
-          <div className="bg-blue-500">{children}</div>
-        </TrpcProvider>
+        <TrpcProvider>{children}</TrpcProvider>
       </body>
     </html>
   );

@@ -32,59 +32,20 @@ export const createUserHandler = async ({ input }: IUserController) => {
     }
 }
 
-// export const getUsersHandler = async ({ filterQuery }: {
-//     filterQuery: filterQueryrInput
-// }) => {
-//     try {
-//         const { limit, page } = filterQuery;
-//         const take = limit || 10;
-//         const skip = (page - 1) * limit;
-
-//         const users = await prisma.user.findMany({
-//             skip,
-//             take
-//         })
-
-//         // get total count users
-//         const totalUsers = await prisma.user.count()
-//         const totalPages = Math.ceil(totalUsers / take);
-//         const hasNextPage = page < totalPages
-
-//         return {
-//             status: true,
-//             results: users.length,
-//             data: {
-//                 users,
-//                 hasNextPage,
-//                 nextPage: hasNextPage ? page + 1 : null
-//             }
-//         };
-//     } catch (error: any) {
-//         throw new TRPCError({
-//             code: 'INTERNAL_SERVER_ERROR',
-//             message: error.message
-//         })
-//     }
-// }
-
-export const getUsersHandler = async ({ filterQuery }: { filterQuery: any }) => {
+export const getUsersHandler = async ({ filterQuery }: { filterQuery: filterQueryrInput }) => {
     try {
         const { cursor, limit } = filterQuery;
-
         const users = await prisma.user.findMany({
             take: limit + 1,
             skip: 0,
             cursor: cursor ? { id: Number(cursor) } : undefined,
             orderBy: { id: 'asc' }
         })
-
         let nextCursor: typeof cursor | undefined = undefined;
         if (users.length > limit) {
             const nextUser = users.pop()
-
             nextCursor = nextUser!.id
         }
-
 
         return {
             users,

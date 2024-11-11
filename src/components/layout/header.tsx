@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import {
@@ -15,6 +14,30 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
+// List data for "Getting started" section
+const gettingStartedItems: {
+  title: string;
+  href: string;
+  description: string;
+}[] = [
+  {
+    title: "Introduction",
+    href: "/docs",
+    description: "Re-usable components built using Radix UI and Tailwind CSS.",
+  },
+  {
+    title: "Installation",
+    href: "/docs/installation",
+    description: "How to install dependencies and structure your app.",
+  },
+  {
+    title: "Typography",
+    href: "/docs/primitives/typography",
+    description: "Styles for headings, paragraphs, lists...etc",
+  },
+];
+
+// List data for "Components" section
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Alert Dialog",
@@ -55,7 +78,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function HeaderNav() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
@@ -78,15 +101,12 @@ export function HeaderNav() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
+              {/* Map through "Getting started" items */}
+              {gettingStartedItems.map((item) => (
+                <ListItem key={item.title} href={item.href} title={item.title}>
+                  {item.description}
+                </ListItem>
+              ))}
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -94,6 +114,7 @@ export function HeaderNav() {
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+              {/* Map through "Components" items */}
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -110,6 +131,13 @@ export function HeaderNav() {
           <Link href="/docs" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/dashboard/user" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              User
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
