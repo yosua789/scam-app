@@ -2,7 +2,7 @@ import { object, TypeOf, z } from "zod";
 
 export const loginSchema = object({
     email: z.string().email(),
-    password: z.string().min(4).max(12)
+    password: z.string().min(4)
 })
 
 

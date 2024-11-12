@@ -2,23 +2,37 @@ import prisma from '@/prisma/prisma-client';
 import { TRPCError } from '@trpc/server';
 import { hash } from "argon2";
 import { Ilogin, IRegister } from '../schema/auth/auth-schema';
+import jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers';
 
 
-interface ILoginProps {
-    email: string;
-    password: string;
-}
-
-
-export const loginHandler = async ({ payload }: Record<string, Ilogin>) => {
+export const loginHandler = async ({ input }: Record<string, Ilogin>) => {
     try {
-        const data = await prisma.user.findFirst({
-            where: { email: payload.email }
+        const data = await prisma.user.findUnique({
+            where: { email: input.email }
         });
+        const secret = process.env.JWT_SECRET!;
         if (data) {
+            if (data.password !== input.password) {
+                throw new TRPCError({
+                    code: 'CONFLICT',
+                    message: 'Wrong email or password',
+                });
+            }
+            // const token = jwt.sign({ sub: data?.email }, secret, {
+            //     expiresIn: 60 * 60
+            // })
+            // const cookieOptions = {
+            //     httpOnly: true,
+            //     path: '/',
+            //     secure: process.env.NODE_ENV !== 'development',
+            //     maxAge: 60 * 60,
+            // };
+            // cookies().set('token', token, cookieOptions)
             return {
                 status: true,
-                data: data
+                data,
+                // token
             }
         }
     }
@@ -64,4 +78,18 @@ export const registerHandler = async ({ payload }: Record<string, IRegister>) =>
         });
     }
 
+}
+
+
+export const logoutHandler = async () => {
+    try {
+        cookies().set('token', '', {
+            maxAge: -1
+        })
+        return {
+            status: true
+        }
+    } catch (error) {
+        throw error;
+    }
 }

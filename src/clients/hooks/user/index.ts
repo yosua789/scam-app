@@ -4,7 +4,7 @@ import { CreateUserInput, createUserSchema } from "@/server/schema/user-schema";
 import { useUserMutation } from "./mutation";
 import { useToast } from "@/hooks/use-toast";
 
-// Mutation
+// ---------------- MUTATION ----------------- //
 export const useUserCreate = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateUserInput>({
         resolver: zodResolver(createUserSchema)

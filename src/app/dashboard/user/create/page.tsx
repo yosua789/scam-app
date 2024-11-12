@@ -42,7 +42,6 @@ const UserForm = () => {
               </p>
             )}
           </div>
-
           <div className="w-1/4">
             <Button type="submit" className="w-full">
               Submit

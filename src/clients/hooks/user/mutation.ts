@@ -1,10 +1,8 @@
 import { trpc } from "@/utils/trpc";
 import queryClient from "@/utils/query-client";
 import { CreateUserInput } from "@/server/schema/user-schema";
-import { useToast } from "@/hooks/use-toast";
 
 export const useUserMutation = () => {
-    const { toast } = useToast()
     const { mutateAsync, error } = trpc.createUser.useMutation({
         onSettled: () => {
             queryClient.invalidateQueries({

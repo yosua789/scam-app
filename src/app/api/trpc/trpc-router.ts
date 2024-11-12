@@ -2,6 +2,7 @@ import userRouter from "@/server/routes/user-route";
 import { t } from "@/utils/trpc-server";
 import SuperJSON from "superjson";
 import { createServerSideHelpers } from '@trpc/react-query/server';
+import authRouter from "@/server/routes/auth-route";
 
 const healthCheckerRouter = t.router({
   healthchecker: t.procedure.query(({ ctx }) => {
@@ -13,7 +14,7 @@ const healthCheckerRouter = t.router({
 });
 
 
-export const appRouter = t.mergeRouters(userRouter, healthCheckerRouter);
+export const appRouter = t.mergeRouters(userRouter, healthCheckerRouter, authRouter);
 
 export const createSSRHelper = () =>
   createServerSideHelpers({
