@@ -20,11 +20,32 @@ model GroceryList {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   name      String
-  email     String   @unique
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  password  String   @default("password")
-  updatedAt DateTime @updatedAt
+  email     String      @unique
+  role      String      @default("user")
+  createdAt DateTime    @default(now())
+  password  String      @default("password")
+  updatedAt DateTime    @updatedAt
+  ScamVotes ScamVotes[]
+}
+
+model ScamNews {
+  id        Int         @id @default(autoincrement())
+  title     String      @unique
+  slug      String      @unique
+  vote      ScamVotes[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model ScamVotes {
+  id         Int       @id @default(autoincrement())
+  status     Boolean   @default(false)
+  author     User      @relation(fields: [userId], references: [id])
+  ScamNews   ScamNews? @relation(fields: [scamNewsId], references: [id])
+  scamNewsId Int?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  userId     Int
 }
