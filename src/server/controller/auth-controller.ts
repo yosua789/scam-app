@@ -45,9 +45,9 @@ export const loginHandler = async ({ input }: Record<string, Ilogin>) => {
 
 }
 
-export const registerHandler = async ({ payload }: Record<string, IRegister>) => {
+export const registerHandler = async ({ input }: Record<string, IRegister>) => {
     try {
-        const { email, password, name } = payload;
+        const { email, password, name } = input;
         const isEmailExists = await prisma.user.findFirst({
             where: { email }
         })

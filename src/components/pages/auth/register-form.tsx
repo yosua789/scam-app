@@ -1,5 +1,5 @@
 "use client";
-import { useLoginUser } from "@/clients/hooks/auth";
+import { useLoginUser, useRegisterUser } from "@/clients/hooks/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,26 +14,32 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
 
-  const callbackUrl = searchParams.get("callbackUrl")!;
-
-  const { form, serverError } = useLoginUser();
-  const onSubmit = form.handleSubmit(async (data) => {
-    const { email, password } = data;
-    await signIn("credentials", {
-      email,
-      password,
-      callbackUrl,
-    });
-  });
+  const { form, handleSubmit, serverError } = useRegisterUser();
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={onSubmit} className="w-full space-y-2">
+        <form onSubmit={handleSubmit} className="w-full space-y-2">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fullname</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Enter your fullname..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -69,13 +75,31 @@ export default function LoginForm() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="c_password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter your Confirm password"
+                    disabled={loading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="">
             <Button
-              disabled={!form.formState.isValid}
+              //   disabled={!form.formState.isValid}
               type="submit"
               className="w-full mt-5"
             >
-              Login
+              Register
             </Button>
           </div>
         </form>
@@ -86,13 +110,13 @@ export default function LoginForm() {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or Register first
+            Already registered?
           </span>
         </div>
       </div>
       <div className="">
         <Button type="submit" variant="destructive" className="w-full">
-          Register
+          Login
         </Button>
       </div>
       {serverError && (

@@ -1,4 +1,4 @@
-import { Ilogin } from "@/server/schema/auth/auth-schema";
+import { Ilogin, IRegister } from "@/server/schema/auth/auth-schema";
 import { trpc } from "@/utils/trpc"
 
 
@@ -16,4 +16,20 @@ export const useLoginMutation = () => {
     }
 
     return { loginUser, error }
+}
+
+
+export const useRegisterMutation = () => {
+    const { mutateAsync, error } = trpc.registerUser.useMutation({
+        onSettled: () => {
+        },
+        onError: (err) => {
+            throw err
+        }
+    });
+    const registerUser = async (data: IRegister) => {
+        return await mutateAsync(data)
+    }
+
+    return { registerUser, error }
 }
