@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -91,8 +92,8 @@ export default function LoginForm() {
         </div>
       </div>
       <div className="">
-        <Button type="submit" variant="destructive" className="w-full">
-          Register
+        <Button asChild variant="purple" className="w-full">
+          <Link href="/register"> Register </Link>
         </Button>
       </div>
       {serverError && (

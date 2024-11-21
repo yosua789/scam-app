@@ -10,8 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function RegisterForm() {
@@ -94,11 +93,7 @@ export default function RegisterForm() {
             )}
           />
           <div className="">
-            <Button
-              //   disabled={!form.formState.isValid}
-              type="submit"
-              className="w-full mt-5"
-            >
+            <Button type="submit" className="w-full mt-5">
               Register
             </Button>
           </div>
@@ -115,8 +110,8 @@ export default function RegisterForm() {
         </div>
       </div>
       <div className="">
-        <Button type="submit" variant="destructive" className="w-full">
-          Login
+        <Button asChild variant="purple" className="w-full">
+          <Link href="/register"> Login </Link>
         </Button>
       </div>
       {serverError && (
